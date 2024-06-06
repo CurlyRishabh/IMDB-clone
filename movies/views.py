@@ -14,9 +14,15 @@ from django.db import transaction
 
 def movie_list(request):
     movies = ["1", "2"]
-    print("in movie_list")  
-    return render(request, 'movies/movie_list.html', {'movies': movies,
-                                                      'users': User.objects.all().values()})
+    print("in movie_list")
+    return render(
+        request,
+        'movies/movie_list.html',
+        {
+            'movies': movies,
+            'users': User.objects.all().values()
+        }
+        )
 
 
 @login_required(login_url='/login')
@@ -30,7 +36,6 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         if not User.objects.filter(username=username).exists():
             messages.error(request, "User doesn't exists")
             return redirect('/register')
@@ -47,6 +52,7 @@ def login_page(request):
 
 
 def register_page(request):
+    print('inreq')
     print(request)
     if request.method == 'POST':
         username = request.POST.get('username')
