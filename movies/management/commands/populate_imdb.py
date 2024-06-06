@@ -21,7 +21,7 @@ class Command(BaseCommand):
                     average_rating = float(row['Rating']) if row['Rating'] else 0
                     duration = int(row['Duration (min)']) if row['Duration (min)'] else 0
                     poster_url = row['Poster']
-                    
+
                     # Create or get the movie
                     movie, created = Movie.objects.get_or_create(
                         title=title,
@@ -32,13 +32,13 @@ class Command(BaseCommand):
                         duration=duration,
                         poster_url=poster_url
                     )
-                    
+
                     # Handling actors
                     actor_names = row['Cast'].split(', ')
                     for actor_name in actor_names:
                         actor, created = Actor.objects.get_or_create(name=actor_name)
                         movie.actors.add(actor)  # Adding actor to the movie
-                    
+
                     # Handling directors
                     director_names = row['Director'].split(', ')
                     for director_name in director_names:
@@ -54,5 +54,4 @@ class Command(BaseCommand):
         print("Database population complete.")
 
     def handle(self, *args, **options):
-        # Assuming the CSV is named 'dataset.csv' and is located in the same directory as this script
         self.import_csv('imdb-movies-dataset.csv')

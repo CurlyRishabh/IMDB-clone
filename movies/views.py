@@ -10,11 +10,7 @@ from .models import Actor, Director, Movie, MovieRating
 from django.db import transaction
 
 
-
-
 # Create your views here.
-
-
 def movie_list(request):
     movies = Movie.objects.values()
     print(movies)

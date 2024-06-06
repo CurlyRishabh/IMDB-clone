@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+
 {% block start %}
-{{users}}
+<!-- {{users}} -->
 {% if messages %}
     {{message.tags}}
     <div class="alert alert-primary" role="alert">
@@ -10,9 +11,9 @@
     </div>
 {% endif %}
 
-<h1>Movie List</h1>
-<div class="d-flex flex-wrap" style=" gap: 20px">
 
+<div class="movie-list-container" style=" gap: 20px">
+    <h1 style="width: 100%;">Movie List</h1>
         {% for movie in movies %}
             {% include 'movie_card.html' %}    
         {% endfor %}

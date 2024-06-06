@@ -1,10 +1,13 @@
-<div class="card" style="width: 20%;">
+{% load static %}
+<div class="movie-card">
     <img src="{{movie.poster_url}}" class="card-img-top" alt="Movie Poster">
-        <div class="card-body">
+        <div class="movie-card-body">
+          <p class="card-text">
+            <img src="{% static 'images/star.png' %}" alt="" style="width: 20px;"> 
+            {{movie.average_rating}}
+            </p>
           <h5 class="card-title">{{movie.title}}</h5>
           <p class="card-text">{{movie.release_year}}</p>
-          <p class="card-text">Average Rating: {{movie.average_rating}}</p>
-          <p class="card-text">Rating Count: {{movie.rating_count}}</p>
-          <a href="/movies/{{movie.id}}" class="btn btn-primary">More Info</a>
+          <a href="/movies/{{movie.id}}" class="button-secondary">More Info</a>
         </div>
     </div>
