@@ -6,14 +6,18 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 
+from .models import Actor, Director, Movie, MovieRating
 from django.db import transaction
+
+
 
 
 # Create your views here.
 
 
 def movie_list(request):
-    movies = ["1", "2"]
+    movies = Movie.objects.values()
+    print(movies)
     print("in movie_list")
     return render(
         request,
@@ -27,7 +31,7 @@ def movie_list(request):
 
 @login_required(login_url='/login')
 def movie_detail(request, movie_id):
-    movie = movie_id
+    movie = Movie.objects.get(id=movie_id)
     return render(request, 'movies/movie_detail.html', {'movie': movie})
 
 
@@ -52,8 +56,6 @@ def login_page(request):
 
 
 def register_page(request):
-    print('inreq')
-    print(request)
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

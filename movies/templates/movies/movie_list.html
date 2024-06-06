@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% block start %}
-    {{users}}
-    {% if messages %}
+{{users}}
+{% if messages %}
     {{message.tags}}
     <div class="alert alert-primary" role="alert">
         {% for message in messages %}
           {{ message }}
         {% endfor %}
     </div>
-    {% endif %}
-    <!-- {{users}} -->
-    <h1>Movie List</h1>
-    <ul>
+{% endif %}
+
+<h1>Movie List</h1>
+<div class="d-flex flex-wrap" style=" gap: 20px">
+
         {% for movie in movies %}
-            <li><a href="/movies/{{movie}}">{{ movie }}</a></li>
+            {% include 'movie_card.html' %}    
         {% endfor %}
-    </ul>
-{% endblock %}
+
+    {% endblock %}
+ </div>
