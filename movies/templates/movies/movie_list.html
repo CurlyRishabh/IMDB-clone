@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block start %}
+{{request.user}}
     {% if messages %}
     {{message.tags}}
     <div class="alert alert-primary" role="alert">
@@ -8,6 +9,7 @@
         {% endfor %}
     </div>
     {% endif %}
+    <!-- {{users}} -->
     <h1>Movie List</h1>
     <ul>
         {% for movie in movies %}
