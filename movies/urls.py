@@ -7,6 +7,9 @@ urlpatterns = [
          movie_view.movie_detail,
          name='movie_detail'),
 
+    
+    path('add_to_watchlist/<int:movie_id>/', movie_view.add_to_watchlist, name='movie_list'),
+
     path('login/', movie_view.login_page, name='login_page'),
     path('register/', movie_view.register_page, name='register_page'),
     path('logout/', movie_view.logout_page, name='logout_page'),

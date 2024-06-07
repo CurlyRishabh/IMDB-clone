@@ -1,4 +1,106 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% load custom_filters %}
 {% block start %}
-    <h1>{{movie}}</h1>
+
+
+<div class="movie-detail-container">
+
+    <img src="{{movie.poster_url}}" class="movie-detail-img" alt="Movie Poster">
+    <div class="movie-detail-items">
+        <div class="movie-detail-item" style="justify-content: space-between;">
+            <p>{{movie.release_year}}</p>
+            <p>{{movie.duration}} min</p>
+        </div>
+        <h3>{{movie.title}}</h3>
+        <p>{{movie.description}}</p>
+
+        <div class="movie-detail-item">
+            <p>Genre:</p>
+            <div class="movie-items">
+
+                {% for genre in movie.genre|split_by_comma %}
+                <button class="movie-item-button">{{ genre }}</button>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="movie-detail-item">
+            <p>Director:</p>
+            <div class="movie-items">
+                {% for director in directors %}
+                <button style="font-size: 0.75rem;" class="movie-item-button">
+                    {{director.name}}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="movie-detail-item">
+            <p>Casts: </p>
+            <div class="movie-items">
+                {% for cast in casts %}
+                <button style="font-size: 0.75rem;" class="movie-item-button">{{cast.name}}</button>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="movie-detail-items">
+
+        <div class='flex-center' style="display:flex; flex-direction: column;">
+            IMDBb RATING
+            <p>
+
+                <strong style="font-size: 2rem; color: #F5C518;">{{movie.average_rating}}</strong> <span
+                    style="font-weight: bold; font-size: 1.25rem;">/ 10</span>
+            </p>
+        </div>
+        <div style="flex-direction: column;" class="flex-center">
+            YOUR RATING
+            <img src="{% static 'images/star.png' %}" alt="" style="width: 50px;">
+        </div>
+        <div class="flex-center">
+            <button class="button-primary" id = "watchlist-btn" style="width: 50%; min-width: 100px;" data-movie-id="{{ movie.id }}">
+                Add to watchlist
+            </button>
+            
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('#watchlist-btn').addEventListener('click', function() {
+            const movieId = this.getAttribute('data-movie-id');
+            const url = `/add_to_watchlist/${movieId}/`;
+            console.log(url);
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                alert('An error occurred. Please try again.');
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
 {% endblock%}

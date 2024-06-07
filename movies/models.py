@@ -38,3 +38,14 @@ class MovieRating(models.Model):
     rating = models.IntegerField()
     review = models.TextField(blank=True, null=True)
     rating_date = models.DateField(auto_now_add=True)
+
+
+class UserWatchList(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    watchlist_date = models.DateField(auto_now_add=True)
+    watched = models.BooleanField(default=False)
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ('movie', 'user')
