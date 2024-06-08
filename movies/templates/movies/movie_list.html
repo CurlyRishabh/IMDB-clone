@@ -3,20 +3,20 @@
 {% block start %}
 {{users}}
 {% if messages %}
-    {{message.tags}}
-    <div class="alert alert-primary" role="alert">
-        {% for message in messages %}
-          {{ message }}
-        {% endfor %}
-    </div>
+{{message.tags}}
+<div class="alert alert-primary" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
 {% endif %}
 
 
 <div class="movie-list-container" style=" gap: 20px">
     <h1 style="width: 100%;">Movie List</h1>
-        {% for movie in movies %}
-            {% include 'movie_card.html' %}    
-        {% endfor %}
+    {% for movie in movies %}
+    {% include 'movie_card.html' %}
+    {% endfor %}
 
-    {% endblock %}
- </div>
+</div>
+{% endblock %}

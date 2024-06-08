@@ -9,6 +9,8 @@ urlpatterns = [
 
     
     path('add_to_watchlist/<int:movie_id>/', movie_view.add_to_watchlist, name='movie_list'),
+    path('profile/<str:user_id>/', movie_view.profile_page, name='profile_page'),
+
 
     path('login/', movie_view.login_page, name='login_page'),
     path('register/', movie_view.register_page, name='register_page'),

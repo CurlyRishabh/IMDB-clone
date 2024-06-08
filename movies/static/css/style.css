@@ -36,6 +36,12 @@ body {
     padding: .5rem 2%;
 }
 
+.navbar-items{
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+}
+
 a {
     text-decoration: none;
 

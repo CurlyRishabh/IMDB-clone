@@ -26,7 +26,7 @@ def movie_list(request):
         )
 
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
     casts = movie.actors.values()
@@ -34,19 +34,21 @@ def movie_detail(request, movie_id):
     for cast in casts:
         print(cast)
 
-    return render(request, 'movies/movie_detail.html',
-                  {'movie': movie,
-                   'casts': casts,
-                   'directors': directors
-                   })
+    return render(request,
+                  template_name='movies/movie_detail.html',
+                  context={'movie': movie,
+                           'casts': casts,
+                           'directors': directors
+                           })
 
 
-@login_required
 def add_to_watchlist(request, movie_id):
     print("clicked")
     movie = get_object_or_404(Movie, id=movie_id)
     user = request.user
 
+    if not User.objects.filter(username=user).exists():
+        return JsonResponse({'status': 'user does not exist', 'message': 'Create account to add movies to watchlist.'})
     # Check if the movie is already in the user's watchlist
     if UserWatchList.objects.filter(user=user, movie=movie).exists():
         return JsonResponse({'status': 'exists', 'message': 'Movie already in watchlist.'})
@@ -54,6 +56,26 @@ def add_to_watchlist(request, movie_id):
     # Add the movie to the user's watchlist
     UserWatchList.objects.create(user=user, movie=movie)
     return JsonResponse({'status': 'success', 'message': 'Movie added to watchlist.'})
+
+
+def profile_page(request, user_id):
+    if not request.user.is_authenticated or user_id == 'None':
+        messages.error(request, "Login to view watchlist page.")
+        return redirect('/login')
+    user_id = int(user_id)
+    if request.user.id != user_id:
+        messages.error(request, "You don't have permission to view others watchlist.")
+        return redirect('/login')
+
+    watchlist_info = UserWatchList.objects.select_related('movie').filter(user=user_id).values(
+        'movie_id',
+        'movie__title',
+        'id',
+        'movie__poster_url',
+        'watched'
+    )
+    return render(request, 'watchlist/watchlist_detail.html',
+                  context={'watchlist': watchlist_info})
 
 
 def login_page(request):

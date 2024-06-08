@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block start %}
+{{users}}
+{% if messages %}
+{{message.tags}}
+<div id="alert-container" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+{% for watchlist_movie in watchlist %}
+<p>
+
+    {{ watchlist_movie }}
+</p>
+
+{% endfor %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    setTimeout(function () {
+        var alertContainer = document.getElementById('alert-container');
+        alertContainer.style.display = 'none';
+    }, 5000); // 5000 milliseconds = 5 seconds
+</script>
+{% endblock %}

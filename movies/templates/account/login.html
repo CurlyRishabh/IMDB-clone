@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block start %}
 <div class="account-container">
     <h1>Login</h1>
     {% if messages %}
     {{message.tags}}
-    <div class="alert alert-primary" role="alert">
+    <div id= 'alert-container' class="alert alert-primary"  role="alert">
         {% for message in messages %}
           {{ message }}
         {% endfor %}
@@ -27,4 +29,14 @@
         <button type="submit" class="button-primary">Submit</button>
     </form>
 </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    setTimeout(function() {
+    var alertContainer = document.getElementById('alert-container');
+    alertContainer.style.display = 'none';
+}, 5000); // 5000 milliseconds = 5 seconds
+</script>
 {% endblock %}
