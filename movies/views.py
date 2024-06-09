@@ -126,25 +126,34 @@ def logout_page(request):
 
 def search_results(request):
 
-    title_search = request.GET.get('title')
-    genre_search = request.GET.get('genre')
-    rating_search = request.GET.get('rating')
-    director_search = request.GET.get('director')
-    actor_search = request.GET.get('actor')
+    title_search = request.GET.get('title', None)
+    genre_search = request.GET.get('genre', None)
+    rating_search = request.GET.get('rating', None)
+    director_search = request.GET.get('director', None)
+    actor_search = request.GET.get('actor', None)
 
-    print("Search Text:", title_search)
-    print(genre_search)
-    print(rating_search)
-    print(director_search)
-    print(actor_search)
-    all_movies = Movie.objects.values()
-    # movies = Movie.objects.filter(actors__id=37)
-    print("in movie_list")
+    filter_movie = Movie.objects.all()
+
+    # Apply filters
+    if title_search:
+        filter_movie = filter_movie.filter(title__icontains=title_search)
+
+    if genre_search:
+        filter_movie = filter_movie.filter(genre__icontains=genre_search)
+
+    if rating_search:
+        filter_movie = filter_movie.filter(average_rating__gte=float(rating_search))
+
+    if director_search:
+        filter_movie = filter_movie.filter(directors__name__icontains=director_search)
+
+    if actor_search:
+        filter_movie = filter_movie.filter(actors__name__icontains=actor_search)
+
     return render(
         request,
         'search/search_result.html',
         {
-            'movies': all_movies,
-            'users': User.objects.all().values()
+            'movies': filter_movie.values(),
         }
         )

@@ -35,8 +35,21 @@ body {
     display: flex;
     justify-content: space-between;
     padding: .5rem 2%;
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+.imdb-logo{
+    width: 4rem;
+    transition: 0.5s;
+}.imdb-logo img{
+    width: 4rem;
+    transition: transform 0.3s;
 }
 
+.imdb-logo img:hover{
+    transform: scale(1.1);
+
+}
 .navbar-items {
     display: flex;
     align-items: center;
@@ -71,11 +84,12 @@ a:hover {
     background-color: var(--yellow);
     color: var(--black);
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
     border-radius: 10px;
     text-align: center;
-
+    height: 2rem;
+    padding: 0.5rem;
+    transition: 0.75s;
 }
 
 .button-primary:hover {
@@ -106,26 +120,25 @@ a:hover {
     border-radius: 5px;
     box-sizing: border-box;
     padding: 0.25rem;
+
 }
 
-.search-button {
-    padding: 0px 20px;
-    background-color: #0073e6;
-    color: #fff;
+
+.advanced-search-btn {
+    height: 2rem;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    background: none;
+
+
 }
 
-.search-button[type="button"] {
-    background-color: #f0f0f0;
-    color: #0073e6;
-    margin-right: 10px;
+.advanced-search-btn img {
+    height: 100%;
+    transition: transform 0.3s;
 }
 
-.search-button[type="button"]:hover,
-.search-button[type="submit"]:hover {
-    background-color: #005bbb;
+.advanced-search-btn img:hover {
+    transform: scale(1.2);
 }
 
 .search-advanced {

@@ -70,10 +70,11 @@
             <img src="{% static 'images/star.png' %}" alt="" style="width: 50px;">
         </div>
         <div class="flex-center">
-            <button class="button-primary" id = "watchlist-btn" style="width: 50%; min-width: 100px;" data-movie-id="{{ movie.id }}">
+            <button class="button-primary" id="watchlist-btn" style="width: 50%; min-width: 100px;"
+                data-movie-id="{{ movie.id }}">
                 Add to watchlist
             </button>
-            
+
         </div>
 
     </div>
@@ -81,8 +82,8 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('#watchlist-btn').addEventListener('click', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('#watchlist-btn').addEventListener('click', function () {
             const movieId = this.getAttribute('data-movie-id');
             const url = `/add_to_watchlist/${movieId}/`;
             console.log(url);
@@ -92,14 +93,30 @@
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(error => {
-                alert('An error occurred. Please try again.');
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    // alert(data.message);
+                    const messageElement = document.createElement('div');
+                    messageElement.textContent = data.message;
+                    messageElement.style.position = 'fixed';
+                    messageElement.style.top = '10%';
+                    messageElement.style.left = '50%';
+                    messageElement.style.transform = 'translate(-50%, -50%)';
+                    messageElement.style.backgroundColor = 'rgba(173, 173, 173, 0.8)';
+                    messageElement.style.padding = '10px';
+                    messageElement.style.borderRadius = '5px';
+                    messageElement.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+                    document.body.appendChild(messageElement);
+
+                    // Remove the message element after 2 seconds
+                    setTimeout(function () {
+                        messageElement.parentNode.removeChild(messageElement);
+                    }, 2000);
+                })
+                .catch(error => {
+                    alert('An error occurred. Please try again.');
+                    console.error('Error:', error);
+                });
         });
     });
 </script>

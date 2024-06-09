@@ -1,6 +1,6 @@
+{% load static %}
 <div class="navbar-items">
-    <form class="search-form" action="/search" method="get">
-        {% csrf_token %}
+    <form class="search-form" action="/search">
     
         <input class="search-input" type="text" id="title" name="title" placeholder="Enter movie title">
     
@@ -11,7 +11,14 @@
                 <option value="action">Action</option>
                 <option value="comedy">Comedy</option>
                 <option value="drama">Drama</option>
-                <!-- Add more genres as needed -->
+                <option value="Biography">Biography</option>
+                <option value="Animation">Animation</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Horror">Horror</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+
+
+                
             </select>
     
             <label class="search-label" for="rating">Rating:</label>
@@ -22,6 +29,11 @@
                 <option value="3">3 Stars</option>
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
+                <option value="6">6 Stars</option>
+                <option value="7">7 Stars</option>
+                <option value="8">8 Stars</option>
+                <option value="9">9 Stars</option>
+                <option value="10">10 Stars</option>
             </select>
     
             <label class="search-label" for="director">Director:</label>
@@ -31,7 +43,9 @@
             <input class="search-input" type="text" id="actors" name="actor" placeholder="Enter actor's name">
         </div>
     
-        <button class="search-button search-button-toggle" type="button" onclick="toggleAdvancedSearch()">Advanced Search</button>
-        <button class="search-button" type="submit">Search</button>
+        <button class="button-primary" type="submit">Search</button>
+        <button  class="advanced-search-btn search-button-toggle" type="button" onclick="toggleAdvancedSearch()">
+            <img src="{% static 'images/advanced-search.png' %}" alt="">
+        </button>
     </form>
 </div>
