@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+{% block searchbar %}
+{% include 'searchbar.html' %}
+{% endblock %}
+
+
 {% block start %}
-{{users}}
 {% if messages %}
 {{message.tags}}
 <div class="alert alert-primary" role="alert">

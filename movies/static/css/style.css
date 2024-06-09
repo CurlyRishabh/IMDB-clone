@@ -9,7 +9,8 @@
     --blue: #0073E6;
     --red: #E50914;
 }
-*{
+
+* {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
@@ -36,7 +37,7 @@ body {
     padding: .5rem 2%;
 }
 
-.navbar-items{
+.navbar-items {
     display: flex;
     align-items: center;
     column-gap: 4px;
@@ -66,7 +67,7 @@ a:hover {
     color: var(--blue);
 }
 
-.button-primary{
+.button-primary {
     background-color: var(--yellow);
     color: var(--black);
     border: none;
@@ -76,10 +77,78 @@ a:hover {
     text-align: center;
 
 }
-.button-primary:hover{
+
+.button-primary:hover {
     background-color: var(--dark-yellow);
     color: white;
 }
+
+
+/* search bar */
+.search-form {
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    column-gap: 5%;
+    position: relative;
+}
+
+.search-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.search-input,
+.search-select {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0.25rem;
+}
+
+.search-button {
+    padding: 0px 20px;
+    background-color: #0073e6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-button[type="button"] {
+    background-color: #f0f0f0;
+    color: #0073e6;
+    margin-right: 10px;
+}
+
+.search-button[type="button"]:hover,
+.search-button[type="submit"]:hover {
+    background-color: #005bbb;
+}
+
+.search-advanced {
+    display: none;
+}
+
+.search-show {
+    display: grid !important;
+    position: absolute;
+    width: 100%;
+    background: var(--dark-gray);
+    top: 100%;
+    padding: 5%;
+    gap: 0.25rem;
+    border-radius: 5%;
+}
+
+.search-hide {
+    display: none !important;
+}
+
+
+
 
 /* Login/ register form */
 .account-container {
@@ -121,12 +190,13 @@ a:hover {
 
 
 /* movielistcart */
-.movie-list-container{
+.movie-list-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0 2%;
 }
+
 .rating {
     color: var(--imdb-yellow);
 }
@@ -142,23 +212,23 @@ a:hover {
     border-radius: 10px;
 }
 
-.movie-card img{
+.movie-card img {
     width: 100%;
     height: 50%;
 }
 
-.movie-card-body{
+.movie-card-body {
     padding-top: .5rem;
     height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
 }
 
 
 /* movie-details */
-.movie-detail-container{
+.movie-detail-container {
     display: flex;
     column-gap: 5%;
     padding: 2% 2%;
@@ -167,35 +237,105 @@ a:hover {
     min-height: 40vh;
 
 }
-.movie-detail-img{
+
+.movie-detail-img {
     width: 20%;
 }
-.movie-detail-items{
+
+.movie-detail-items {
     width: 35%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.movie-detail-item{
+.movie-detail-item {
     display: flex;
     column-gap: 0.5rem;
 
 }
 
-.movie-items{
-display: flex;
-flex-wrap: wrap;
-gap: 5px;
+.movie-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
-.movie-item-button{
+
+.movie-item-button {
     color: var(--light-gray);
-  background-color: var(--dark-gray);
-  padding: 3px 5px;
-  border: 1px solid white;
-  border-radius: 10px;
+    background-color: var(--dark-gray);
+    padding: 3px 5px;
+    border: 1px solid white;
+    border-radius: 10px;
 }
-.movie-item-button:hover{
+
+.movie-item-button:hover {
     background-color: var(--light-gray);
     color: var(--dark-gray);
+}
+
+
+.watchlist-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.watchlist-movie-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: var(--light-gray);
+}
+
+.watchlist-movie-card img {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.watchlist-movie-details {
+    flex-grow: 1;
+}
+
+.watchlist-movie-title {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+}
+
+.watchlist-movie-id {
+    color: #666;
+}
+
+.watchlist-watch-status {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.watched {
+    color: green;
+}
+
+.not-watched {
+    color: red;
+}
+
+.watchlist-toggle-button {
+    background-color: var(--yellow);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.watchlist-toggle-button:hover {
+    background-color: var(--dark-yellow);
 }

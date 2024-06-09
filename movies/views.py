@@ -122,3 +122,30 @@ def register_page(request):
 def logout_page(request):
     logout(request)
     return redirect('/login')
+
+
+def search_results(request):
+    results = []
+    if request.method == 'POST':
+        # Assuming you're using Django forms, you can access the form data like this:
+        search_text = request.POST.get('searchText')
+        search_by = request.POST.get('searchBy')
+        
+        # if search_by == 'title':
+        #     movies = Movie.objects.filter(title__icontains=search_text)
+        # elif search_by == 'genre':
+        #     movies = Movie.objects.filter(genre__icontains=search_text)
+        # elif search_by == 'actor':
+        #     movies = Movie.objects.filter(actors__name__icontains=search_text)
+        # elif search_by == 'director':
+        #     movies = Movie.objects.filter(directors__name__icontains=search_text)
+        
+        print("Search Text:", search_text)
+        print("Search By:", search_by)
+        print("movies: ", movies)
+        return render(request, 'search/search_result.html', {'results': movies})
+    # movies = Movie.objects.filter(genre__icontains='Action')
+    movies = Actor.objects.filter(name__icontains='Owen').values_list('id', flat=True).values
+    # for mo in movies:
+    #     print(mo)
+    return render(request, 'search/search_result.html', {'results': movies})

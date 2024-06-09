@@ -8,6 +8,13 @@
     <title>Document</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script>
+        function toggleAdvancedSearch() {
+            var advancedSearch = document.querySelector(".search-advanced");
+            advancedSearch.classList.toggle("search-show");
+            advancedSearch.classList.toggle("search-hide");
+        }
+    </script>
 </head>
 
 <body>
@@ -15,6 +22,9 @@
         <a href="\" style="width: 4rem">
             <img src="{% static 'images/imdb-logo.png' %}" alt="" style="width: 100%;">
         </a>
+        {% block searchbar %}
+      
+        {% endblock %}
         <div class="navbar-items">
             <a href="/profile/{{request.user.id}}"><div style="width: 2rem">
                 <img src="{% static 'images/user-logo.png' %}" alt="" style="width: 100%;">

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+{% block searchbar %}
+{% include 'searchbar.html' %}
+{% endblock %}
+
+
 {% block start %}
-{{users}}
 {% if messages %}
 {{message.tags}}
 <div id="alert-container" role="alert">
@@ -10,13 +14,22 @@
     {% endfor %}
 </div>
 {% endif %}
-{% for watchlist_movie in watchlist %}
-<p>
+<div class="watchlist-container">
+    <h1>My Watchlist</h1>
+    {% for watchlist_movie in watchlist %}
+    <div class="watchlist-movie-card " id="movie2">
+        <img src="{{watchlist_movie.movie__poster_url}}" alt="Unfrosted">
+        <div class="watchlist-movie-details">
+            <h2 class="watchlist-movie-title">{{watchlist_movie.movie__title}}</h2>
+            <p class="watchlist-movie-id">ID: {{watchlist_movie.movie_id}} </p>
+            <p class="watch-status not-watched" id="status{{watchlist_movie.movie_id}}">{{watchlist_movie.watched}}</p>
+        </div>
+        <button class="watchlist-toggle-button" onclick="toggleStatus({{watchlist_movie.movie_id}})">Watched</button>
+    </div>
 
-    {{ watchlist_movie }}
-</p>
+    {% endfor %}
+</div>
 
-{% endfor %}
 
 </div>
 {% endblock %}
@@ -27,5 +40,21 @@
         var alertContainer = document.getElementById('alert-container');
         alertContainer.style.display = 'none';
     }, 5000); // 5000 milliseconds = 5 seconds
+
+    function toggleStatus(movieId) {
+        // Write your code here to toggle the watch status
+        // You can use the movieId to identify which movie's status to toggle
+        console.log(movieId);
+        var statusElement = document.getElementById('status' + movieId);
+        if (statusElement.classList.contains('watched')) {
+            statusElement.classList.remove('watched');
+            statusElement.classList.add('not-watched');
+            statusElement.textContent = 'Not Watched';
+        } else {
+            statusElement.classList.remove('not-watched');
+            statusElement.classList.add('watched');
+            statusElement.textContent = 'Watched';
+        }
+    }
 </script>
 {% endblock %}

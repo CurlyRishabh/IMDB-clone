@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block start %} 
+<form class="search-form" action="/search" method="get">
+    {% csrf_token %}
+
+    <label class="search-label" for="title">Search by Title:</label>
+    <input class="search-input" type="text" id="title" name="title" placeholder="Enter movie title">
+
+    <div class="search-advanced search-hide">
+        <label class="search-label" for="genre">Genre:</label>
+        <select class="search-select" id="genre" name="genre">
+            <option value="">Select Genre</option>
+            <option value="action">Action</option>
+            <option value="comedy">Comedy</option>
+            <option value="drama">Drama</option>
+            <!-- Add more genres as needed -->
+        </select>
+
+        <label class="search-label" for="rating">Rating:</label>
+        <select class="search-select" id="rating" name="rating">
+            <option value="">Select Rating</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+        </select>
+
+        <label class="search-label" for="director">Director:</label>
+        <input class="search-input" type="text" id="director" name="director" placeholder="Enter director's name">
+
+        <label class="search-label" for="actors">Actors:</label>
+        <input class="search-input" type="text" id="actors" name="actors" placeholder="Enter actor's name">
+    </div>
+
+    <button class="search-button search-button-toggle" type="button" onclick="toggleAdvancedSearch()">Advanced Search</button>
+    <button class="search-button" type="submit">Search</button>
+</form>
+{{results   }}
+{% endblock %}
