@@ -15,9 +15,14 @@
         <div class="watchlist-movie-details">
             <h2 class="watchlist-movie-title">{{watchlist_movie.movie__title}}</h2>
             <p class="watchlist-movie-id">ID: {{watchlist_movie.movie_id}} </p>
-            <p class="watch-status not-watched" id="status{{watchlist_movie.movie_id}}">{{watchlist_movie.watched}}</p>
+            <p class="watch-status {% if watchlist_movie.watched %}watched{% else %}not-watched{% endif %}" id="status{{watchlist_movie.movie_id}}">
+                {% if watchlist_movie.watched %}Watched{% else %}Not Watched{% endif %}
+            </p>
         </div>
-        <button class="watchlist-toggle-button" onclick="toggleStatus({{watchlist_movie.movie_id}})">Watched</button>
+        <form action="/add_to_watchlist/{{watchlist_movie.movie_id}}/" method="post">
+            {% csrf_token %}
+            <button class="watchlist-toggle-button" >Toggle status</button>
+        </form>
     </div>
 
     {% endfor %}
@@ -30,21 +35,5 @@
 {% block scripts %}
 <script>
 
-
-    function toggleStatus(movieId) {
-        // Write your code here to toggle the watch status
-        // You can use the movieId to identify which movie's status to toggle
-        console.log(movieId);
-        const statusElement = document.getElementById('status' + movieId);
-        if (statusElement.classList.contains('watched')) {
-            statusElement.classList.remove('watched');
-            statusElement.classList.add('not-watched');
-            statusElement.textContent = 'Not Watched';
-        } else {
-            statusElement.classList.remove('not-watched');
-            statusElement.classList.add('watched');
-            statusElement.textContent = 'Watched';
-        }
-    }
 </script>
 {% endblock %}

@@ -101,7 +101,16 @@ def add_to_watchlist(request, movie_id):
     print("clicked")
     movie = get_object_or_404(Movie, id=movie_id)
     user = request.user
-
+    if request.method == 'POST':
+        curr_user_list = UserWatchList.objects.filter(user=user, movie=movie).first()
+        # if curr_user_list.watched:
+        #     curr_user_list.update(watched=False)
+        # else:
+        #     curr_user_list.update(watched=True)
+        if curr_user_list:
+            curr_user_list.watched = not curr_user_list.watched
+            curr_user_list.save()
+        return redirect(f'/profile/{user.id}')
     if not User.objects.filter(username=user).exists():
         return JsonResponse({
             'status': 'user does not exist',
