@@ -25,30 +25,35 @@
         <div class="movie-detail-item">
             <p>Genre:</p>
             <div class="movie-items">
-
-                {% for genre in movie.genre|split_by_comma %}
-                <button class="movie-item-button">{{ genre }}</button>
-                {% endfor %}
+                <form action="/search">
+                    {% for genre in movie.genre|split_by_comma %}
+                    <button type="submit" class="movie-item-button" name="genre" value="{{genre}}">{{ genre }}</button>
+                    {% endfor %}
+                </form>
             </div>
 
         </div>
         <div class="movie-detail-item">
             <p>Director:</p>
             <div class="movie-items">
-                {% for director in directors %}
-                <button style="font-size: 0.75rem;" class="movie-item-button">
-                    {{director.name}}
-                </button>
-                {% endfor %}
+                <form action="/search">
+                    {% for director in directors %}
+                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="director" value="{{director.name}}">
+                        {{director.name}}
+                    </button>
+                    {% endfor %}
+                </form>
             </div>
         </div>
 
         <div class="movie-detail-item">
             <p>Casts: </p>
             <div class="movie-items">
-                {% for cast in casts %}
-                <button style="font-size: 0.75rem;" class="movie-item-button">{{cast.name}}</button>
-                {% endfor %}
+                <form action="/search">
+                    {% for cast in casts %}
+                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="actor" value="{{cast.name}}">{{cast.name}}</button>
+                    {% endfor %}
+                </form>
             </div>
 
         </div>
@@ -166,6 +171,8 @@
                 });
         });
     });
+
+
 </script>
 
 
