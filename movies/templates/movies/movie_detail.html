@@ -10,7 +10,6 @@
 
 {% block start %}
 
-
 <div class="movie-detail-container">
 
     <img src="{{movie.poster_url}}" class="movie-detail-img" alt="Movie Poster">
@@ -38,7 +37,8 @@
             <div class="movie-items">
                 <form action="/search">
                     {% for director in directors %}
-                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="director" value="{{director.name}}">
+                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="director"
+                        value="{{director.name}}">
                         {{director.name}}
                     </button>
                     {% endfor %}
@@ -49,9 +49,10 @@
         <div class="movie-detail-item">
             <p>Casts: </p>
             <div class="movie-items">
-                <form action="/search">
+                <form action="/search" class="movie-items">
                     {% for cast in casts %}
-                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="actor" value="{{cast.name}}">{{cast.name}}</button>
+                    <button type="submit" style="font-size: 0.75rem;" class="movie-item-button" name="actor"
+                        value="{{cast.name}}">{{cast.name}}</button>
                     {% endfor %}
                 </form>
             </div>
@@ -72,9 +73,17 @@
         </div>
         <div style="flex-direction: column;" class="flex-center">
             YOUR RATING
-            <button class="rate-button">
-                <img src="{% static 'images/star.png' %}" alt="" style="width: 35px;">
+            <button id='user-rating' class="rate-button">
+                <img src="{% static 'images/star.png' %}" alt="" style="width: 30px;">
+                {% if user_rating %}
+                <p>
+
+                    <strong style="font-size: 2rem; color: #F5C518;">{{user_rating}}</strong> <span
+                        style="font-weight: bold; font-size: 1.25rem;">/ 10</span>
+                </p>
+                {% else %}
                 Rate
+                {% endif %}
             </button>
 
             <div class="modal">
@@ -128,9 +137,35 @@
         // Submit the rating
         document.querySelector('.submit-rating').addEventListener('click', function () {
             const rating = document.querySelector('input[name="rating"]:checked').value;
-            // Here you can do something with the rating, like sending it to a server
-            console.log('Rating submitted:', rating);
-            // For demonstration, I'm just closing the modal
+            const movie_id = "{{movie.id}}";
+            const url = '/rating/'
+            const data = {
+                'rating': rating,
+                'movie_id': movie_id
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    return response.json()
+
+                }).then(data => {
+                    console.log(data)
+                    const newEle = document.querySelector('#user-rating')
+                    newEle.innerHTML = `<img src="{% static 'images/star.png' %}" alt="" style="width: 30px;">
+    <p>
+        <strong style="font-size: 2rem; color: #F5C518;">${rating}</strong>
+        <span style="font-weight: bold; font-size: 1.25rem;">/ 10</span>
+    </p>`;
+                })
+                .catch(error => {
+                    console.error('Error submitting rating:', error);
+                });
             modal.style.display = 'none';
         });
 

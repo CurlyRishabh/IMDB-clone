@@ -32,3 +32,12 @@
     </form>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    setTimeout(function() {
+    var alertContainer = document.getElementById('alert-container');
+    alertContainer.style.display = 'none';
+}, 5000); // 5000 milliseconds = 5 seconds
+</script>
+{% endblock %}

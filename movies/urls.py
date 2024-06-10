@@ -11,5 +11,7 @@ urlpatterns = [
     path('login/', movie_view.login_page, name='login_page'),
     path('register/', movie_view.register_page, name='register_page'),
     path('logout/', movie_view.logout_page, name='logout_page'),
-    path('search/', movie_view.search_results, name='search_page')
+
+    path('search/', movie_view.search_results, name='search_page'),
+    path('rating/', movie_view.rating, name='rating_handler')
 ]

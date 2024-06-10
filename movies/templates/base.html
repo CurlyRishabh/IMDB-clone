@@ -23,28 +23,35 @@
             <img src="{% static 'images/imdb-logo.png' %}" alt="">
         </a>
         {% block searchbar %}
-      
+
         {% endblock %}
+
+
+
         <div class="navbar-items">
-            <a href="/profile/{{request.user.id}}"><div style="width: 2rem">
-                <img src="{% static 'images/user-logo.png' %}" alt="" style="width: 100%;">
-            </div></a>
-            
+            <a href="/profile/{{request.user.id}}">
+                <div class="flex-center" style="height: 2rem; color: yellow;">
+                    <img src="{% static 'images/user-logo.png' %}" alt="" style="height: 100%;">
+                    {{request.user}}
+                </div>
+            </a>
+
 
             {% if request.user.is_authenticated %}
             <a class="button-primary" type="submit" href="/logout/">Logout</a>
             {% else %}
             <a class="button-primary" type="submit" href="/login/">Login</a>
             {% endif %}
-            
+
         </div>
     </nav>
-    {{request.user}}
+
 
     {% block start %}
     {% endblock %}
 
 </body>
-    {% block scripts %}
-    {% endblock %}
+{% block scripts %}
+{% endblock %}
+
 </html>

@@ -6,14 +6,7 @@
 
 
 {% block start %}
-{% if messages %}
-{{message.tags}}
-<div id="alert-container" role="alert">
-    {% for message in messages %}
-    {{ message }}
-    {% endfor %}
-</div>
-{% endif %}
+
 <div class="watchlist-container">
     <h1>My Watchlist</h1>
     {% for watchlist_movie in watchlist %}
@@ -36,16 +29,13 @@
 
 {% block scripts %}
 <script>
-    setTimeout(function () {
-        var alertContainer = document.getElementById('alert-container');
-        alertContainer.style.display = 'none';
-    }, 5000); // 5000 milliseconds = 5 seconds
+
 
     function toggleStatus(movieId) {
         // Write your code here to toggle the watch status
         // You can use the movieId to identify which movie's status to toggle
         console.log(movieId);
-        var statusElement = document.getElementById('status' + movieId);
+        const statusElement = document.getElementById('status' + movieId);
         if (statusElement.classList.contains('watched')) {
             statusElement.classList.remove('watched');
             statusElement.classList.add('not-watched');

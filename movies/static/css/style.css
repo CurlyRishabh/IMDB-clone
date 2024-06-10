@@ -264,6 +264,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 5px;
 }
 
 .movie-detail-item {
@@ -302,6 +303,7 @@ a:hover {
     font-weight: bold;
     font-size: 1.2rem;
     border: none;
+    flex-direction: column;
 }
 
 /* rating modal */
