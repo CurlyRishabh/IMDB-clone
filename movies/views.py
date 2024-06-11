@@ -5,10 +5,11 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib import messages
 
-from .models import Actor, Director, Movie, MovieRating, UserWatchList
+from .models import MovieComment, Movie, MovieRating, UserWatchList
 from django.db import transaction
 
 
@@ -103,10 +104,6 @@ def add_to_watchlist(request, movie_id):
     user = request.user
     if request.method == 'POST':
         curr_user_list = UserWatchList.objects.filter(user=user, movie=movie).first()
-        # if curr_user_list.watched:
-        #     curr_user_list.update(watched=False)
-        # else:
-        #     curr_user_list.update(watched=True)
         if curr_user_list:
             curr_user_list.watched = not curr_user_list.watched
             curr_user_list.save()
@@ -223,3 +220,40 @@ def rating(request):
         return JsonResponse({
             'status': 'error',
             'message': 'Invalid request method.'}, status=405)
+
+
+@csrf_exempt
+
+def add_movie_comment(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            movie_id = data.get('movie_id')
+            user_id = data.get('user_id')
+            parent_comment_id = data.get('parent_comment_id')
+            content = data.get('content')
+
+            if movie_id is None or user_id is None or content is None:
+                raise ValueError("Required fields missing")
+            parent_comment = None
+            if parent_comment_id:
+                parent_comment = MovieComment.objects.get(id=parent_comment_id)
+
+            movie_comment = MovieComment(
+                movie_id=movie_id,
+                user_id=user_id,
+                parent_comment_id=parent_comment,
+                content=content,
+            )
+            movie_comment.save()
+
+            comment_id = movie_comment.id  # Get the comment's ID after saving
+
+            return JsonResponse({'status': 'success',
+                                 'message': 'Movie comment added successfully',
+                                 'comment_id': comment_id})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 
+                                 'message': str(e)})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Only POST requests are allowed'})

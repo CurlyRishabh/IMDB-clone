@@ -21,7 +21,8 @@ class Movie(models.Model):
     release_year = models.IntegerField()
     genre = models.CharField(max_length=100)
     description = models.TextField()
-    average_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
+    average_rating = models.DecimalField(max_digits=3, decimal_places=2,
+                                         default=0.00)
     rating_count = models.IntegerField(default=0)
     duration = models.IntegerField()
     actors = models.ManyToManyField('Actor', related_name='movies')
@@ -49,3 +50,12 @@ class UserWatchList(models.Model):
 
     class Meta:
         unique_together = ('movie', 'user')
+
+
+class MovieComment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parent_comment_id = models.ForeignKey('self', on_delete=models.CASCADE,
+                                          default=None, null=True)
+    comment_date = models.DateField(auto_now_add=True)
+    content = models.TextField(null=False)

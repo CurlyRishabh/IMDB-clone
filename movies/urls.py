@@ -13,5 +13,7 @@ urlpatterns = [
     path('logout/', movie_view.logout_page, name='logout_page'),
 
     path('search/', movie_view.search_results, name='search_page'),
-    path('rating/', movie_view.rating, name='rating_handler')
+    path('rating/', movie_view.rating, name='rating_handler'),
+    path('add_movie_comment/', movie_view.add_movie_comment,
+         name="comment_handler")
 ]
