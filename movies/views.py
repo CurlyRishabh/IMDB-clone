@@ -89,12 +89,13 @@ def movie_detail(request, movie_id):
         user_rating = user_rating[0]['rating']
     else:
         user_rating = False
+ 
     return render(request,
                   template_name='movies/movie_detail.html',
                   context={'movie': movie,
                            'casts': casts,
                            'directors': directors,
-                           'user_rating': user_rating
+                           'user_rating': user_rating,
                            })
 
 
@@ -142,8 +143,15 @@ def profile_page(request, user_id):
         'movie__poster_url',
         'watched'
     )
+    rating_info = MovieRating.objects.select_related('movie').filter(
+        user=user_id).values('movie__title',
+                             'rating',
+                             'movie__poster_url',
+                             'id')
+    print(rating_info)
     return render(request, 'watchlist/watchlist_detail.html',
-                  context={'watchlist': watchlist_info})
+                  context={'watchlist': watchlist_info,
+                           'rating': rating_info})
 
 
 def search_results(request):
@@ -184,6 +192,7 @@ def search_results(request):
         )
 
 
+@login_required
 def rating(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
@@ -223,7 +232,6 @@ def rating(request):
 
 
 @csrf_exempt
-
 def add_movie_comment(request):
     if request.method == 'POST':
         try:
@@ -257,3 +265,22 @@ def add_movie_comment(request):
                                  'message': str(e)})
     else:
         return JsonResponse({'status': 'error', 'message': 'Only POST requests are allowed'})
+
+
+def get_comment_data(request, movie_id):
+    # for comments
+    comments = MovieComment.objects.filter(
+        movie_id=movie_id).select_related(
+            'user', 'parent_comment_id').order_by('comment_date')
+
+    comment_data = [
+        {
+            'userName': comment.user.username,
+            'parentCommentId': comment.parent_comment_id.id if comment.parent_comment_id else None,
+            'commentId': comment.id,
+            'commentContent': comment.content,
+            'dateAdded': comment.comment_date
+        }
+        for comment in comments
+    ]
+    return JsonResponse(comment_data, safe=False)

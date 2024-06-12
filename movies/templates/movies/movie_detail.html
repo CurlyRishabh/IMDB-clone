@@ -120,7 +120,9 @@
 <div id="comment-area">
     <h2>Movie Comments</h2>
     <div class="new-comment">
-        <input type="text" id="new-comment-text" placeholder="Add your comment...">
+        <!-- <input type="text" id="new-comment-text" placeholder="Add your comment..."> -->
+        <textarea id="new-comment-text" placeholder="Add your comment..."></textarea>
+
         <button class="add-comment-btn button-primary">Add Comment</button>
     </div>
 
@@ -146,13 +148,41 @@
         }, 2000);
     }
 
+    function renderNestedComments() {
+        const url = '/get_movie_comments/' + "{{movie.id}}";
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
 
+                for (index in data) {
+                    const comment = data[index];
+                    userName = comment.userName;
+                    parentCommentId = comment.parentCommentId;
+                    commentId = comment.commentId;
+                    commentContent = comment.commentContent;
+                    if (parentCommentId == null) {
+                        const commentAreaDiv = document.getElementById('comment-area')
+                        commentAreaDiv.appendChild(addNewComment(commentContent, userName, commentId))
+                    } else {
+                        const replyCommentDiv = document.querySelector(`.comment[comment-id="${parentCommentId}"]`);
+                        replyCommentDiv.appendChild(addReply(commentContent, userName, commentId));
+
+                    }
+                }
+            })
+            .catch(error => {
+                showMessage(error)
+                console.error('Error:', error);
+            });
+
+
+    }
     function createInputBox() {
         let div = document.createElement("div");
 
         div.setAttribute("class", "reply-form");
 
-        div.innerHTML += `<input type="text" placeholder="Your reply">
+        div.innerHTML += `<textarea type="text" placeholder="Your reply"></textarea>
             <button class="submit-reply button-primary">Submit</button>`;
         return div;
     }
@@ -162,6 +192,7 @@
 
         div.setAttribute("class", "comment");
         div.setAttribute("comment-id", commenId)
+        text = text.replace(/\n/g, "<br>");
 
         div.innerHTML += `<div class="comment-user">${userName}</div>
         <div class="comment-text">${text}</div>
@@ -174,7 +205,7 @@
         const div = document.createElement('div');
         div.setAttribute("class", 'comment')
         div.setAttribute("comment-id", commenId)
-
+        commentText = commentText.replace(/\n/g, "<br>");
         div.innerHTML = `<div class="comment-user">${userName}</div>
         <div class="comment-text">${commentText}</div>
         <button class="reply-btn button-primary">Reply</button>`
@@ -203,6 +234,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         // Get the rate button and the modal
+        renderNestedComments();
         const rateBtn = document.querySelector('.rate-button');
         const modal = document.querySelector('.modal');
         const commentArea = document.getElementById('comment-area')
@@ -240,6 +272,7 @@
                 }).then(data => {
                     console.log(data)
                     if (data.status == 'success') {
+                        showMessage(data.message)
                         const newEle = document.querySelector('#user-rating')
                         newEle.innerHTML = `<img src="{% static 'images/star.png' %}" alt="" style="width: 30px;">
     <p>
@@ -251,6 +284,7 @@
                     }
                 })
                 .catch(error => {
+                    showMessage(error);
                     console.error('Error submitting rating:', error);
                 });
             modal.style.display = 'none';
@@ -292,7 +326,10 @@
             }
             if (submitClicked) {
                 // movieId, userId, reply text, parent comment
-                const replyText = e.target.closest(".reply-form").children[0].value;
+                const replyText = e.target.closest(".reply-form").children[0].value.trim();
+                if (replyText == '') {
+                    return;
+                }
                 const closestCard = e.target.closest(".comment");
                 const parentCommentId = closestCard.getAttribute('comment-id');
                 const data = {
@@ -315,22 +352,28 @@
                         if (data.status == 'success') {
                             addSubmitReplyClickHandler(e, "{{request.user}}", data.comment_id);
                             // addSubmitReplyClickHandler(e, "{{request.user}}");
-                            
+
                         }
 
                     })
                     .catch(error => {
+                        showMessage(error)
                         console.error('Error:', error);
                     });
 
             }
 
             if (addCommentClicked) {
+                const commentText = document.getElementById("new-comment-text").value.trim();
+                if (commentText == '') {
+                    return;
+                }
+
                 const data = {
                     movie_id: "{{movie.id}}",
                     user_id: "{{request.user.id}}",
                     // parent_comment_id: -1,
-                    content: document.getElementById("new-comment-text").value,
+                    content: commentText,
                 };
                 fetch('/add_movie_comment/', {
                     method: 'POST',
@@ -349,6 +392,7 @@
 
                     })
                     .catch(error => {
+                        showMessage(error)
                         console.error('Error:', error);
                     });
             }

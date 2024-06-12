@@ -15,5 +15,6 @@ urlpatterns = [
     path('search/', movie_view.search_results, name='search_page'),
     path('rating/', movie_view.rating, name='rating_handler'),
     path('add_movie_comment/', movie_view.add_movie_comment,
-         name="comment_handler")
+         name="comment_handler"),
+    path('get_movie_comments/<int:movie_id>', movie_view.get_comment_data, name='get_comment_data')
 ]
