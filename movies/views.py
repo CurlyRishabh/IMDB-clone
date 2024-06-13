@@ -315,7 +315,7 @@ def add_movie_comment(request):
             movie_comment.save()
 
             comment_id = movie_comment.id  # Get the comment's ID after saving
-
+        
             return JsonResponse({'status': 'success',
                                  'message': 'Movie comment added successfully',
                                  'comment_id': comment_id})
