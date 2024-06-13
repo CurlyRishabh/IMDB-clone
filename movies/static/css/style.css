@@ -235,6 +235,48 @@ a:hover {
     border-radius: 10px;
 }
 
+/* admin css */
+.admin-movie-card{
+    display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.update-admin-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.update-admin-heading {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.update-admin-form-group {
+    margin-bottom: 20px;
+}
+
+.update-admin-form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.update-admin-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
 .movie-card img {
     width: 100%;
     height: 50%;
@@ -327,6 +369,7 @@ a:hover {
 
 .modal-content {
     background-color: #fefefe;
+    color: black;
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -386,13 +429,22 @@ a:hover {
 
 /* Watchlist */
 .watchlist-container {
-    max-width: 800px;
-    margin: 20px auto;
+    
+    margin: 2%;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: black;
+    display: grid;
+  row-gap: 1rem;
+
+}
+.profile-item-heading{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--light-gray);
+    padding: 0.5rem;
 }
 
 .toggle-watchlist{
@@ -514,4 +566,53 @@ a:hover {
     line-height: 1.5;
     resize: vertical;
     margin-bottom: 0.5rem;
+}
+
+/* profile rating table */
+.rating-table {
+    display: block;
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rating-table th, .rating-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.rating-table th {
+    background-color: #f2f2f2;
+}
+
+.rating-movie-poster {
+    width: 4rem;
+    height: auto;
+}
+
+.rating-form {
+    display: flex;
+    align-items: center;
+}
+
+.rating-select {
+    margin-right: 10px;
+}
+
+.rating-update-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.rating-delete-button {
+    background-color: #dc3545;
 }

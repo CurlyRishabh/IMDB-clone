@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block searchbar %}
+
 {% include 'searchbar.html' %}
 {% endblock %}
 
@@ -8,30 +10,85 @@
 {% block start %}
 
 <div class="watchlist-container">
-    <div style="display: flex; justify-content: space-between;">
+    <div class="profile-item-heading">
         <h1>My Watchlist</h1>
-        <button onclick="toggleWatchlistClick()">Show-all</button>
+        <button onclick="toggleWatchlistClick('toggle-watchlist')">Show-all</button>
     </div>
     <div class="toggle-watchlist">
-    {% for watchlist_movie in watchlist %}
-    <div class="watchlist-movie-card " id="movie2">
-        <img src="{{watchlist_movie.movie__poster_url}}" alt="Unfrosted">
-        <div class="watchlist-movie-details">
-            <h2 class="watchlist-movie-title">{{watchlist_movie.movie__title}}</h2>
-            <!-- <p class="watchlist-movie-id">ID: {{watchlist_movie.movie_id}} </p> -->
-            <p class="watch-status {% if watchlist_movie.watched %}watched{% else %}not-watched{% endif %}" id="status{{watchlist_movie.movie_id}}">
-                {% if watchlist_movie.watched %}Watched{% else %}Not Watched{% endif %}
-            </p>
+        {% for watchlist_movie in watchlist %}
+        <div class="watchlist-movie-card " id="movie2">
+            <img src="{{watchlist_movie.movie__poster_url}}" alt="Unfrosted">
+            <div class="watchlist-movie-details">
+                <h2 class="watchlist-movie-title">{{watchlist_movie.movie__title}}</h2>
+                <!-- <p class="watchlist-movie-id">ID: {{watchlist_movie.movie_id}} </p> -->
+                <p class="watch-status {% if watchlist_movie.watched %}watched{% else %}not-watched{% endif %}"
+                    id="status{{watchlist_movie.movie_id}}">
+                    {% if watchlist_movie.watched %}Watched{% else %}Not Watched{% endif %}
+                </p>
+            </div>
+            <form action="/add_to_watchlist/{{watchlist_movie.movie_id}}/" method="post">
+                {% csrf_token %}
+                <button class="watchlist-toggle-button">Toggle status</button>
+            </form>
         </div>
-        <form action="/add_to_watchlist/{{watchlist_movie.movie_id}}/" method="post">
-            {% csrf_token %}
-            <button class="watchlist-toggle-button" >Toggle status</button>
-        </form>
+
+        {% endfor %}
     </div>
 
-    
-    {% endfor %}
-</div>  
+    <div>
+        <div class="profile-item-heading">
+
+            <h1>Movies Ratings</h1>
+            <button onclick="toggleWatchlistClick('rating-table')">Show-all</button>
+        </div>
+        <table class="rating-table">
+            <thead>
+                <tr>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Update Action</th>
+                    <th>Delete Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in rating %}
+                <tr>
+                    <td><img class="rating-movie-poster" src="{{ movie.movie__poster_url }}"
+                            alt="{{ movie.movie__title }}">
+                    </td>
+                    <td>{{ movie.movie__title }}</td>
+                    <td>{{ movie.rating }}</td>
+                    <td>
+                        <form class="rating-form" id="rating-form-{{ movie.id }}" method="post">
+                            {% csrf_token %}
+                            <select class="rating-select" name="new_rating" form="rating-form-{{ movie.id }}">
+                                {% for i in 10|times %}
+                                {% if i == movie.rating %}
+                                <option value="{{ i }}" selected>{{ i }}</option>
+                                {% else %}
+                                <option value="{{ i }}">{{ i }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                            <button class="rating-update-button" type="submit" form="rating-form-{{ movie.id }}">Update
+                                Rating</button>
+                        </form>
+
+                    </td>
+                    <td>
+                        <form id="delete-form-{{ movie.id }}" method="post">
+                            {% csrf_token %}
+                            <button class="rating-delete-button rating-update-button" type="submit"
+                                form="delete-form-{{ movie.id }}">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -40,11 +97,11 @@
 
 {% block scripts %}
 <script>
-    function toggleWatchlistClick(){
-        const ele = document.querySelector('.toggle-watchlist');
-        if (ele.style.display == 'none'){
+    function toggleWatchlistClick(toggleName) {
+        const ele = document.querySelector(`.${toggleName}`);
+        if (ele.style.display == 'none') {
             ele.style.display = 'block'
-        }else{
+        } else {
             ele.style.display = 'none'
         }
     }

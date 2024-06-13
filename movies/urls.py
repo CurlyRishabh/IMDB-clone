@@ -16,5 +16,14 @@ urlpatterns = [
     path('rating/', movie_view.rating, name='rating_handler'),
     path('add_movie_comment/', movie_view.add_movie_comment,
          name="comment_handler"),
-    path('get_movie_comments/<int:movie_id>', movie_view.get_comment_data, name='get_comment_data')
+
+    path('get_movie_comments/<int:movie_id>', movie_view.get_comment_data,
+         name='get_comment_data'),
+
+    path('deletemovie/<int:movie_id>/', movie_view.delete_movie,
+         name='delete_movie'),
+
+    path('updatemovie/<int:movie_id>/', movie_view.update_movie,
+         name='update_movie'),
+
 ]

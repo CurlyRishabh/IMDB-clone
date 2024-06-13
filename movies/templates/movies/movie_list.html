@@ -30,6 +30,18 @@
     setTimeout(function() {
     var alertContainer = document.getElementById('alert-container');
     alertContainer.style.display = 'none';
-}, 3000); // 5000 milliseconds = 5 seconds
+}, 3000); 
+
+   // Function to open modal
+   function openModal(modalId) {
+    console.log(modalId);
+        document.getElementById(modalId).style.display = "block";
+    }
+
+    // Function to close modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
 </script>
 {% endblock %}

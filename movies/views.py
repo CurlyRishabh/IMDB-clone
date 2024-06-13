@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib import messages
 
-from .models import MovieComment, Movie, MovieRating, UserWatchList
+from .models import MovieComment, Movie, MovieRating, UserWatchList, Actor, Director
 from django.db import transaction
 
 
@@ -99,6 +99,64 @@ def movie_detail(request, movie_id):
                            })
 
 
+def delete_movie(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    movie.delete()
+    return redirect('/')
+
+
+def update_movie(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    casts = movie.actors.values()
+    directors = movie.directors.values()
+
+    if request.method == 'POST':
+        # Retrieve updated data from the form
+        title = request.POST.get('title')
+        average_rating = request.POST.get('average_rating')
+        release_year = request.POST.get('release_year')
+        duration = request.POST.get('duration')
+        director_input = request.POST.get('director')
+        casts_input = request.POST.get('casts')
+
+        with transaction.atomic():
+            movie.title = title
+            movie.average_rating = average_rating
+            movie.release_year = release_year
+            movie.duration = duration
+
+            # Clear existing actors and directors
+            movie.actors.clear()
+            movie.directors.clear()
+
+            # Process and add actors
+            actor_names = casts_input.split(',')
+            for actor_name in actor_names:
+                actor_name = actor_name.strip()  
+                if actor_name != '':
+                    actor, created = Actor.objects.get_or_create(
+                        name=actor_name)
+                    movie.actors.add(actor) 
+
+            # Process and add directors
+            director_names = director_input.split(',')
+            for director_name in director_names:
+                director_name = director_name.strip()
+                if director_name != '':
+                    director, created = Director.objects.get_or_create(
+                        name=director_name)
+                    movie.directors.add(director)
+
+            movie.save()
+        return redirect('/')
+
+    return render(request, 'movies/update_movie.html', {
+        'movie': movie,
+        'casts': casts,
+        'directors': directors
+    })
+
+
 def add_to_watchlist(request, movie_id):
     print("clicked")
     movie = get_object_or_404(Movie, id=movie_id)
@@ -136,7 +194,8 @@ def profile_page(request, user_id):
                        "You don't have permission to view others watchlist.")
         return redirect('/')
 
-    watchlist_info = UserWatchList.objects.select_related('movie').filter(user=user_id).values(
+    watchlist_info = UserWatchList.objects.select_related('movie').filter(
+        user=user_id).values(
         'movie_id',
         'movie__title',
         'id',

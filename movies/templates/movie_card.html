@@ -1,13 +1,30 @@
 {% load static %}
 <div class="movie-card">
-    <img src="{{movie.poster_url}}" class="card-img-top" alt="Movie Poster">
-        <div class="movie-card-body">
-          <p class="card-text">
-            <img src="{% static 'images/star.png' %}" alt="" style="width: 20px;"> 
-            {{movie.average_rating}}
-            </p>
-          <h5 class="card-title">{{movie.title}}</h5>
-          <p class="card-text">{{movie.release_year}}</p>
-          <a href="/movies/{{movie.id}}" class="button-secondary">More Info</a>
-        </div>
-    </div>
+  {% if user.is_superuser %}
+  <div class="admin-movie-card">
+    <a href="/updatemovie/{{ movie.id }}/" class="rating-update-button">Update</a>
+    <button class="rating-update-button rating-delete-button" onclick="openModal('deleteModal{{ movie.id }}')">Delete</button>
+
+    <div id="deleteModal{{ movie.id }}" class="modal">
+      <div class="modal-content">
+          <span class="close" onclick="closeModal('deleteModal{{ movie.id }}')">&times;</span>
+          <h2>Click to confirm</h2><form action="/deletemovie/{{ movie.id }}/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="movie_id" value="{{ movie.id }}">
+            <button type="submit" class="rating-update-button rating-delete-button">Confirm</button>
+        </form>
+      </div>
+  </div>
+  </div>
+    {% endif %}
+  <img src="{{movie.poster_url}}" class="card-img-top" alt="Movie Poster">
+  <div class="movie-card-body">
+    <p class="card-text">
+      <img src="{% static 'images/star.png' %}" alt="" style="width: 20px;">
+      {{movie.average_rating}}
+    </p>
+    <h5 class="card-title">{{movie.title}}</h5>
+    <p class="card-text">{{movie.release_year}}</p>
+    <a href="/movies/{{movie.id}}" class="button-secondary">More Info</a>
+  </div>
+</div>
