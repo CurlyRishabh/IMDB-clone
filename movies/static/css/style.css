@@ -173,7 +173,7 @@ a:hover {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-  background: white;
+    background: white;
 
 }
 
@@ -236,10 +236,10 @@ a:hover {
 }
 
 /* admin css */
-.admin-movie-card{
+.admin-movie-card {
     display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
 }
 
 .update-admin-container {
@@ -250,7 +250,8 @@ a:hover {
 
 .update-admin-heading {
     font-size: 24px;
-    color: #333;
+    color: var(--yellow);
+    margin: 1rem 0;
     text-align: center;
 }
 
@@ -429,7 +430,7 @@ a:hover {
 
 /* Watchlist */
 .watchlist-container {
-    
+
     margin: 2%;
     background-color: #fff;
     padding: 20px;
@@ -437,19 +438,34 @@ a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: black;
     display: grid;
-  row-gap: 1rem;
+    row-gap: 1rem;
 
 }
-.profile-item-heading{
+
+.profile-dropdown-btn {
+    height: 2rem;
+    width: 2rem;
+    text-align: center;
+    transform: rotate(90deg);
+    font-size: 1.5rem;
+    color: white;
+    background: cornflowerblue;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+}
+
+.profile-item-heading {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--light-gray);
     padding: 0.5rem;
 }
 
-.toggle-watchlist{
+.toggle-watchlist {
     display: block;
 }
+
 .watchlist-movie-card {
     display: flex;
     align-items: center;
@@ -576,7 +592,8 @@ a:hover {
     width: 100%;
 }
 
-.rating-table th, .rating-table td {
+.rating-table th,
+.rating-table td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;

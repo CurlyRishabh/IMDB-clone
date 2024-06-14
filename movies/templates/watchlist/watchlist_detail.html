@@ -12,7 +12,7 @@
 <div class="watchlist-container">
     <div class="profile-item-heading">
         <h1>My Watchlist</h1>
-        <button onclick="toggleWatchlistClick('toggle-watchlist')">Show-all</button>
+        <button class="profile-dropdown-btn" onclick="toggleWatchlistClick(this, 'toggle-watchlist')">></button>
     </div>
     <div class="toggle-watchlist">
         {% for watchlist_movie in watchlist %}
@@ -39,7 +39,7 @@
         <div class="profile-item-heading">
 
             <h1>Movies Ratings</h1>
-            <button onclick="toggleWatchlistClick('rating-table')">Show-all</button>
+            <button class="profile-dropdown-btn" onclick="toggleWatchlistClick(this, 'rating-table')">></button>
         </div>
         <table class="rating-table">
             <thead>
@@ -97,12 +97,16 @@
 
 {% block scripts %}
 <script>
-    function toggleWatchlistClick(toggleName) {
+    function toggleWatchlistClick(button, toggleName) {
         const ele = document.querySelector(`.${toggleName}`);
+        
         if (ele.style.display == 'none') {
             ele.style.display = 'block'
+            button.style.transform = 'rotate(90deg)';
         } else {
             ele.style.display = 'none'
+            button.style.transform = 'rotate(0deg)';
+
         }
     }
 </script>
