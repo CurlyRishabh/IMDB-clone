@@ -63,6 +63,7 @@
                     <td>
                         <form class="rating-form" id="rating-form-{{ movie.id }}" method="post">
                             {% csrf_token %}
+                            <input type="text" name="movie_id" value="{{movie.movie_id}}" style="display: none;">
                             <select class="rating-select" name="new_rating" form="rating-form-{{ movie.id }}">
                                 {% for i in 10|times %}
                                 {% if i == movie.rating %}
@@ -99,9 +100,14 @@
 <script>
     function toggleWatchlistClick(button, toggleName) {
         const ele = document.querySelector(`.${toggleName}`);
-        
+
         if (ele.style.display == 'none') {
-            ele.style.display = 'block'
+            if (toggleName == 'rating-table') {
+                ele.style.display = 'table'
+
+            } else {
+                ele.style.display = 'block'
+            }
             button.style.transform = 'rotate(90deg)';
         } else {
             ele.style.display = 'none'

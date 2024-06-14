@@ -586,7 +586,7 @@ a:hover {
 
 /* profile rating table */
 .rating-table {
-    display: block;
+    display: table;
     font-family: Arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -595,8 +595,9 @@ a:hover {
 .rating-table th,
 .rating-table td {
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
+
 }
 
 .rating-table th {
@@ -611,10 +612,17 @@ a:hover {
 .rating-form {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .rating-select {
     margin-right: 10px;
+    margin-right: 10px;
+    background-color: var(--yellow);
+    border: none;
+    padding: 0.25rem;
+    color: white;
+    border-radius: 5px;
 }
 
 .rating-update-button {

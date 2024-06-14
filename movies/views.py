@@ -89,7 +89,7 @@ def movie_detail(request, movie_id):
         user_rating = user_rating[0]['rating']
     else:
         user_rating = False
- 
+
     return render(request,
                   template_name='movies/movie_detail.html',
                   context={'movie': movie,
@@ -193,7 +193,18 @@ def profile_page(request, user_id):
         messages.error(request,
                        "You don't have permission to view others watchlist.")
         return redirect('/')
-
+    if request.method == 'POST':
+        print('in rating post')
+        new_rating = request.POST.get('new_rating')
+        movie_id = request.POST.get('movie_id')
+        user = request.user
+        print(movie_id)
+        movie = Movie.objects.get(id=movie_id)
+        user_rating, created = MovieRating.objects.get_or_create(user=user,
+                                                                 movie=movie)
+        user_rating.rating = new_rating
+        user_rating.save()
+        redirect(f'/profile/{user_id}')
     watchlist_info = UserWatchList.objects.select_related('movie').filter(
         user=user_id).values(
         'movie_id',
@@ -206,8 +217,8 @@ def profile_page(request, user_id):
         user=user_id).values('movie__title',
                              'rating',
                              'movie__poster_url',
-                             'id')
-    print(rating_info)
+                             'id',
+                             'movie_id')
     return render(request, 'watchlist/watchlist_detail.html',
                   context={'watchlist': watchlist_info,
                            'rating': rating_info})
